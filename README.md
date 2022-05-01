@@ -8,7 +8,12 @@ Server Port: ```4200```
 ```
 # Product API
 
-Coming soon
+## Get all products
+GET /product
+
+## Get specific product
+GET /product/{id}
+
 
 # Component API
 
