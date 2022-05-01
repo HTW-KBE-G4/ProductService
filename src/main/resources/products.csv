@@ -1,0 +1,11 @@
+PC_id,CPU,GPU,PSU,MB,RAM,Storage,Name
+1,2,3,5,10,6,9,HIgh-End-Gamer PC
+2,1,4,5,10,7,8,Low-Budget-PC
+3,1,3,5,10,7,9,Streamer-PC
+4,2,4,5,10,6,8,Creative-Allrounder
+5,2,4,5,10,7,9,Office-PCPC_id,CPU,GPU,PSU,MB,RAM,Storage,Name
+1,2,3,5,10,6,9,HIgh-End-Gamer PC
+2,1,4,5,10,7,8,Low-Budget-PC
+3,1,3,5,10,7,9,Streamer-PC5,2,4,5,10,7,9,Office-PC
+4,2,4,5,10,6,8,Creative-Allrounder
+5,2,4,5,return name;10,7,9,Office-PC
