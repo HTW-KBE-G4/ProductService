@@ -4,6 +4,7 @@ import de.tanukihardwarestore.ProductService.warehouse.ComponentManager;
 import de.tanukihardwarestore.ProductService.warehouse.PCComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -33,5 +34,13 @@ public class ProductRestController {
             return null;
         }
         return componentManager.getAll().stream().toList();
+    }
+
+    @GetMapping("component/{id}")
+    public PCComponent getComponent(@PathVariable Long id) {
+        if (componentManager.fetchData(URL_PATH) == false) {
+            return null;
+        }
+        return componentManager.getByID(id);
     }
 }
