@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("component")
 public class ComponentRestController {
-    private static final String URL_PATH = "http://localhost:3002/component";
+    private static final String URL_PATH = "http://warehouse:3002/component";
     
     @Autowired
     private ComponentManager componentManager;
