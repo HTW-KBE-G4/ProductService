@@ -1,5 +1,7 @@
 package de.tanukihardwarestore.ProductService.controller;
 
+import de.tanukihardwarestore.ProductService.ProductServiceApplication;
+import de.tanukihardwarestore.ProductService.repository.ComponentRepository;
 import de.tanukihardwarestore.ProductService.warehouse.ComponentManager;
 import de.tanukihardwarestore.ProductService.warehouse.PCComponent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,24 +15,37 @@ import java.util.List;
 @RestController
 @RequestMapping("component")
 public class ComponentRestController {
-    private static final String URL_PATH = "http://warehouse:3002/component";
-    
+
     @Autowired
     private ComponentManager componentManager;
+    
+    @Autowired
+    private ComponentRepository componentRepository;
 
     @GetMapping("")
-    public List<PCComponent> getcomponents() {
-        if (componentManager.fetchData(URL_PATH) == false) {
-            return null;
-        }
-        return componentManager.getAll().stream().toList();
+    public List<PCComponent> getAllComponents() {
+        checkIfRepositoryIsFilled();
+        return componentRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public PCComponent getComponent(@PathVariable Long id) {
-        if (componentManager.fetchData(URL_PATH) == false) {
-            return null;
+        checkIfRepositoryIsFilled();
+        return componentRepository.findById(id)
+                .orElseThrow();
+    }
+
+    /**
+     * Fills repository if it wasn't already filled during startup bean
+     */
+    private void checkIfRepositoryIsFilled() {
+        if (componentRepository.count() <= 0) {
+            if (componentManager.fetchData(ProductServiceApplication.URL_PATH) == true) {
+                componentRepository.saveAll(componentManager.getAll());
+            }
+            else {
+                System.out.println("Error fetching data from WarehouseService...");
+            }
         }
-        return componentManager.getByID(id);
     }
 }

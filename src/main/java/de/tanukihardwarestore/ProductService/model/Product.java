@@ -1,8 +1,6 @@
 package de.tanukihardwarestore.ProductService.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Product {
@@ -13,6 +11,7 @@ public class Product {
 
     private String name;
 
+    @ManyToOne
     private Long cpu_id;
 
     private Long gpu_id;

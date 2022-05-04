@@ -5,9 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 
-
+@Entity
 public class PCComponent {
 
+    @Id
+    @GeneratedValue()
     private Long id;
 
     private String type;

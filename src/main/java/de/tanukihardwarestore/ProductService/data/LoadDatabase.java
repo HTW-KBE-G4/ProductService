@@ -1,7 +1,10 @@
 package de.tanukihardwarestore.ProductService.data;
 
+import de.tanukihardwarestore.ProductService.ProductServiceApplication;
 import de.tanukihardwarestore.ProductService.model.Product;
+import de.tanukihardwarestore.ProductService.repository.ComponentRepository;
 import de.tanukihardwarestore.ProductService.repository.ProductRepository;
+import de.tanukihardwarestore.ProductService.warehouse.ComponentManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +23,13 @@ public class LoadDatabase {
     @Autowired
     private ResourceLoader resourceLoader;
 
+    @Autowired
+    private ComponentManager componentManager;
+
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
     @Bean
-    CommandLineRunner initDatabase(ProductRepository repository) {
+    CommandLineRunner initDatabase(ProductRepository repository, ComponentRepository componentRepository) {
 
 
 
@@ -32,8 +38,15 @@ public class LoadDatabase {
 
 
         return args -> {
-
+            componentRepository.deleteAll();
             repository.deleteAll();
+
+            if (componentManager.fetchData(ProductServiceApplication.URL_PATH) == true) {
+                componentRepository.saveAll(componentManager.getAll());
+                log.info("saved components from backend...");
+            }
+
+
 
             for (Product product :
                     list) {
