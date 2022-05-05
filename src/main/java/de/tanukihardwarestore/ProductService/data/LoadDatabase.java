@@ -29,29 +29,27 @@ public class LoadDatabase {
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
     @Bean
-    CommandLineRunner initDatabase(ProductRepository repository, ComponentRepository componentRepository) {
-
-
-
-        CSVDataReader csvDataReader = new CSVDataReader(this.resourceLoader);
-        List<Product> list = csvDataReader.getObjects(CSV_FILE_PATH);
+    CommandLineRunner initDatabase(ComponentRepository repository) {
 
 
         return args -> {
-            componentRepository.deleteAll();
             repository.deleteAll();
 
-            if (componentManager.fetchData(ProductServiceApplication.URL_PATH) == true) {
-                componentRepository.saveAll(componentManager.getAll());
-                log.info("saved components from backend...");
+            if (componentManager.fetchData() == false) {
+                log.error("Failed fetching componnets from backend into database");
             }
 
+        };
+    }
 
+    @Bean
+    CommandLineRunner initProducts(ProductRepository repository) {
 
-            for (Product product :
-                    list) {
+        return args -> {
+            repository.deleteAll();
 
-                log.info("preloading..."+repository.save(product));
+            if (componentManager.fetchData() == false) {
+                log.error("Failed fetching products from backend into database");
             }
         };
     }
