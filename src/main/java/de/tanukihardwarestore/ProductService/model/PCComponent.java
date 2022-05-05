@@ -1,16 +1,15 @@
-package de.tanukihardwarestore.ProductService.warehouse;
+package de.tanukihardwarestore.ProductService.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
 
 @Entity
 public class PCComponent {
 
     @Id
     @GeneratedValue()
-    private Long id;
+    private Long component_id;
 
     private String type;
 
@@ -22,23 +21,21 @@ public class PCComponent {
 
     private String releaseDate;
 
-    private String uvp;
+    private Float uvp;
 
-    private String weight;
+    private float weight;
 
     private String productName;
 
-    private String ean;
+    private Long ean;
 
     private String imageURL;
 
-
-
     public PCComponent() { }
 
-    public PCComponent(Long id, String type, String model, String manufacturer, String uvp, String description,
-                       String releaseDate, String weight, String productName, String ean, String imageURL) {
-        this.id = id;
+    public PCComponent(Long id, String type, String model, String manufacturer, float uvp, String description,
+                       String releaseDate, float weight, String productName, Long ean, String imageURL) {
+        this.component_id = id;
         this.model = model;
         this.description = description;
         this.releaseDate = releaseDate;
@@ -54,7 +51,7 @@ public class PCComponent {
     @Override
     public String toString() {
         return "PCComponent{" +
-                "id=" + id +
+                "id=" + component_id +
                 ", type='" + type + '\'' +
                 ", model='" + model + '\'' +
                 ", manufacturer='" + manufacturer + '\'' +
@@ -67,7 +64,7 @@ public class PCComponent {
                 '}';
     }
 
-    public void setWeight(String weight) {
+    public void setWeight(float weight) {
         this.weight = weight;
     }
 
@@ -79,24 +76,24 @@ public class PCComponent {
         this.imageURL = imageURL;
     }
 
-    public void setEan(String ean) {
+    public void setEan(Long ean) {
         this.ean = ean;
     }
 
-    public String getWeight() { return weight; }
+    public float getWeight() { return weight; }
 
     public String getProductName() { return productName; }
 
-    public String getEan() { return ean; }
+    public Long getEan() { return ean; }
 
     public String getImageURL() { return imageURL; }
 
-    public Long getId() {
-        return id;
+    public Long getComponent_id() {
+        return component_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setComponent_id(Long component_id) {
+        this.component_id = component_id;
     }
 
     public String getModel() {
@@ -123,11 +120,11 @@ public class PCComponent {
         this.manufacturer = manufacturer;
     }
 
-    public String getUvp() {
+    public float getUvp() {
         return uvp;
     }
 
-    public void setUvp(String uvp) {
+    public void setUvp(float uvp) {
         this.uvp = uvp;
     }
 
