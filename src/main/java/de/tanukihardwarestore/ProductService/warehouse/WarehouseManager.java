@@ -40,12 +40,6 @@ public class WarehouseManager implements ComponentManager {
     }
 
     @Override
-    public PCComponent getComponentByID(Long id) {
-        return this.componentRepository.findById(id)
-                .orElseThrow();
-    }
-
-    @Override
     public Collection<Product> getAllProducts() {
         return this.productRepository.findAll();
     }

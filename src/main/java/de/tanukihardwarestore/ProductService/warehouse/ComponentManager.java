@@ -14,13 +14,6 @@ public interface ComponentManager {
     Collection<PCComponent> getAllComponents();
 
     /**
-     * Get specific Component by api call
-     * @param id id of the compoennt
-     * @return the specific component
-     */
-    PCComponent getComponentByID(Long id);
-
-    /**
      * Init connection and fetch components and products data from Warehouse-Microservice
      * @return true if all needed data has been fetched successfully, false if the data wasn't complete
      */

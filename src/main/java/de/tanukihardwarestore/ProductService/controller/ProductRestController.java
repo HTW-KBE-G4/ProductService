@@ -23,13 +23,26 @@ public class ProductRestController {
 
     @GetMapping("")
     public List<Product> getProducts() {
+        checkIfRepositoryIsFilled();
         return productRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public Product getComponent(@PathVariable Long id) {
+        checkIfRepositoryIsFilled();
         return productRepository.findById(id)
-                .orElseThrow();
+                .orElse(null);
+    }
+
+    /**
+     * Fills repository if it wasn't already filled during startup bean
+     */
+    private void checkIfRepositoryIsFilled() {
+        if (productRepository.count() <= 0) {
+            if (componentManager.fetchData() == false) {
+                System.out.println("Error fetching data from WarehouseService...");
+            }
+        }
     }
 
 }

@@ -18,8 +18,6 @@ import java.util.List;
 @Configuration
 public class LoadDatabase {
 
-    private static final String CSV_FILE_PATH = "classpath:/products.csv";
-
     @Autowired
     private ResourceLoader resourceLoader;
 
@@ -31,10 +29,8 @@ public class LoadDatabase {
     @Bean
     CommandLineRunner initDatabase(ComponentRepository repository) {
 
-
         return args -> {
             repository.deleteAll();
-
             if (componentManager.fetchData() == false) {
                 log.error("Failed fetching componnets from backend into database");
             }
@@ -47,7 +43,6 @@ public class LoadDatabase {
 
         return args -> {
             repository.deleteAll();
-
             if (componentManager.fetchData() == false) {
                 log.error("Failed fetching products from backend into database");
             }

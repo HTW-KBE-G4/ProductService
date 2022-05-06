@@ -32,7 +32,7 @@ public class ComponentRestController {
     public PCComponent getComponent(@PathVariable Long id) {
         checkIfRepositoryIsFilled();
         return componentRepository.findById(id)
-                .orElseThrow();
+                .orElse(null);
     }
 
     /**
