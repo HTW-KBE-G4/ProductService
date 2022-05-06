@@ -44,30 +44,30 @@ GET /component/{id}
 
 Example for component with id 19:
 ```
-GET /component/19 
+GET /components/19 
 ```
 
-```json
-response: {
-  product_id: 19
-  name: "Creative Allrounder"
-  components: [
+```json5
+{
+  "product_id": 19,
+  "name": "Creative Allrounder",
+  "components": [
     {
-       component_id: 4
-       type: "GPU"
-       model: "GT 1030"
-       description: "Beschleunigen Sie Ihr gesamtes PC-Erlebnis mit der schnellen, leistungsstarken NVIDIA GeForce GT 1030-Grafikkarte."
-       manufacturer: "MSI"
-       releaseDate: "2018"
-       uvp: 142.78
-       weight: 400
-       productName: "2GB MSI GeForce GT 1030 OC"
-       ean: 4719072561413
-       imageURL: "https://pixabay.com/get/...007ce12a5306009b_1920.jpg" 
+       "component_id": 4,
+       "type": "GPU",
+       "model": "GT 1030",
+       "description": "Beschleunigen Sie Ihr gesamtes PC-Erlebnis mit der schnellen, leistungsstarken NVIDIA GeForce GT 1030-Grafikkarte.",
+       "manufacturer": "MSI",
+       "releaseDate": "2018",
+       "uvp": 142.78,
+       "weight": 400,
+       "productName": "2GB MSI GeForce GT 1030 OC",
+       "ean": 4719072561413,
+       "imageURL": "https://pixabay.com/get/...007ce12a5306009b_1920.jpg" 
     },
-    {...},
-    {...},
-    {...}    
+    {/*...*/},
+    {/*...*/},
+    {/*...*/}    
   ] 
 }
 
