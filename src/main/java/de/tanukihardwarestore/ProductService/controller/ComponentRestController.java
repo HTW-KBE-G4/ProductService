@@ -1,6 +1,5 @@
 package de.tanukihardwarestore.ProductService.controller;
 
-import de.tanukihardwarestore.ProductService.ProductServiceApplication;
 import de.tanukihardwarestore.ProductService.model.PCComponent;
 import de.tanukihardwarestore.ProductService.repository.ComponentRepository;
 import de.tanukihardwarestore.ProductService.warehouse.ComponentManager;
@@ -40,7 +39,7 @@ public class ComponentRestController {
      */
     private void checkIfRepositoryIsFilled() {
         if (componentRepository.count() <= 0) {
-            if (componentManager.fetchData() == false) {
+            if (componentManager.fetchDataFromBackend() == false) {
                 System.out.println("Error fetching data from WarehouseService...");
             }
         }

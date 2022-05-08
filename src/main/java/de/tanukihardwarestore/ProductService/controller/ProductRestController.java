@@ -34,12 +34,9 @@ public class ProductRestController {
                 .orElse(null);
     }
 
-    /**
-     * Fills repository if it wasn't already filled during startup bean
-     */
     private void checkIfRepositoryIsFilled() {
         if (productRepository.count() <= 0) {
-            if (componentManager.fetchData() == false) {
+            if (componentManager.fetchDataFromBackend() == false) {
                 System.out.println("Error fetching data from WarehouseService...");
             }
         }

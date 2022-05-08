@@ -12,9 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class WarehouseManager implements ComponentManager {
@@ -45,11 +43,11 @@ public class WarehouseManager implements ComponentManager {
     }
 
     @Override
-    public boolean fetchData() {
-        return fetchComponents() && fetchProducts();
+    public boolean fetchDataFromBackend() {
+        return fetchComponentsFromWarehouse() && fetchProductsFromWarehouse();
     }
 
-    private boolean fetchComponents() {
+    private boolean fetchComponentsFromWarehouse() {
         if (this.componentRepository.count() > 0) {
             //list has already been fetched. no more need to...
             return true;
@@ -73,7 +71,7 @@ public class WarehouseManager implements ComponentManager {
         return false;
     }
 
-    private boolean fetchProducts() {
+    private boolean fetchProductsFromWarehouse() {
         if (this.productRepository.count() > 0) {
             return true;
         }

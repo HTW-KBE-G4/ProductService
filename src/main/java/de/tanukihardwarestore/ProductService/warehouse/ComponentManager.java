@@ -8,20 +8,20 @@ import java.util.Collection;
 public interface ComponentManager {
 
     /**
-     * Get all Components from backend
-     * @return all Components
+     * Get all components fetched from backend
+     * @return a collection of all components fetched
      */
     Collection<PCComponent> getAllComponents();
 
     /**
-     * Init connection and fetch components and products data from Warehouse-Microservice
+     * Init connection. Fetch components and products data from Warehouse-Microservice
      * @return true if all needed data has been fetched successfully, false if the data wasn't complete
      */
-    boolean fetchData();
+    boolean fetchDataFromBackend();
 
     /**
-     * Get all products from backend
-     * @return all products
+     * Get all products fetched from backend
+     * @return a collection of all products fetched
      */
     Collection<Product> getAllProducts();
 }
