@@ -1,5 +1,9 @@
 package de.tanukihardwarestore.ProductService.warehouse;
 
+import de.tanukihardwarestore.ProductService.model.PCComponent;
+import de.tanukihardwarestore.ProductService.model.Product;
+import de.tanukihardwarestore.ProductService.repository.ComponentRepository;
+import de.tanukihardwarestore.ProductService.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -7,55 +11,85 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.lang.reflect.Type;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class WarehouseManager implements ComponentManager {
 
+    private static final String COMPONENT_PATH = "http://warehouse:3002/components";
+
+    private static final String PRODUCT_PATH = "http://warehouse:3002/products";
+
+    @Autowired
+    private ComponentRepository componentRepository;
+
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Autowired
     private RestTemplate restTemplate;
 
-    /**
-     * Map of Components fetched by WarehouseService
-     */
-    private Map<Long, PCComponent> componentList = new HashMap<>();
 
     @Override
-    public Collection<PCComponent> getAll() { return this.componentList.values(); }
+    public Collection<PCComponent> getAllComponents() {
+        return this.componentRepository.findAll();
+    }
 
     @Override
-    public PCComponent getByID(Long id) { return this.componentList.get(id); }
+    public Collection<Product> getAllProducts() {
+        return this.productRepository.findAll();
+    }
 
     @Override
-    public boolean fetchData(String url) {
+    public boolean fetchDataFromBackend() {
+        return fetchComponentsFromWarehouse() && fetchProductsFromWarehouse();
+    }
 
-        if (this.componentList.size() > 0) {
+    private boolean fetchComponentsFromWarehouse() {
+        if (this.componentRepository.count() > 0) {
             //list has already been fetched. no more need to...
             return true;
         }
 
         ResponseEntity<List<PCComponent>> response = restTemplate.exchange(
-                url,
+                COMPONENT_PATH,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<PCComponent>>() { }
         );
 
         List<PCComponent> list = response.getBody();
+
         if (list != null) {
-            for (PCComponent component:
-                 list ) {
-                this.componentList.put(component.getId(), component);
-            }
+            this.componentRepository.saveAll(list);
             return true;
         }
 
         //got null reponse -> return false...
+        return false;
+    }
+
+    private boolean fetchProductsFromWarehouse() {
+        if (this.productRepository.count() > 0) {
+            return true;
+        }
+
+        ResponseEntity<List<Product>> response = restTemplate.exchange(
+                PRODUCT_PATH,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Product>>() { }
+        );
+
+        List<Product> productList  = response.getBody();
+
+        if (productList != null) {
+            this.productRepository.saveAll(productList);
+            return true;
+        }
+
         return false;
     }
 }

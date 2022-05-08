@@ -1,0 +1,41 @@
+version: '3.3'
+
+services:
+  productdb:
+    container_name: productdb
+    image: mysql/mysql-server:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'db'
+      # non-root user for db access
+      MYSQL_USER: 'user'
+      # password for db-user acc
+      MYSQL_PASSWORD: 'password'
+      # root password
+      MYSQL_ROOT_PASSWORD: 'password'
+    expose:
+      - "3306"
+    networks:
+      - default
+
+  productservice:
+    container_name: productservice
+
+    #builds the spring service rather than pulling the docker image from public repository
+    build: .
+    #de-comment below to pull spring image from public repository rather than building it locally
+    #image: profanta3/htwb-kbe-g4:main
+    depends_on:
+      - productdb
+    restart: on-failure
+    ports:
+      - "4200:4200"
+    networks:
+      - default
+      - warehouseservice_default
+
+networks:
+  default:
+    internal: true
+  warehouseservice_default:
+    external: true

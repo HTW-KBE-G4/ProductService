@@ -1,26 +1,27 @@
 package de.tanukihardwarestore.ProductService.warehouse;
 
+import de.tanukihardwarestore.ProductService.model.PCComponent;
+import de.tanukihardwarestore.ProductService.model.Product;
+
 import java.util.Collection;
-import java.util.List;
 
 public interface ComponentManager {
 
     /**
-     * Get all Components from backend
-     * @return
+     * Get all components fetched from backend
+     * @return a collection of all components fetched
      */
-    Collection<PCComponent> getAll();
+    Collection<PCComponent> getAllComponents();
 
     /**
-     * Get specific Component by api call
-     * @param id id of the compoennt
-     * @return
+     * Init connection. Fetch components and products data from Warehouse-Microservice
+     * @return true if all needed data has been fetched successfully, false if the data wasn't complete
      */
-    PCComponent getByID(Long id);
+    boolean fetchDataFromBackend();
 
     /**
-     * Init connection and fetch the data from Warehouse-Microservice
-     * @return
+     * Get all products fetched from backend
+     * @return a collection of all products fetched
      */
-    boolean fetchData(String url);
+    Collection<Product> getAllProducts();
 }
