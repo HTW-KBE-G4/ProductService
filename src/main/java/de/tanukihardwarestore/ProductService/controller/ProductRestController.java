@@ -4,10 +4,7 @@ import de.tanukihardwarestore.ProductService.model.Product;
 import de.tanukihardwarestore.ProductService.repository.ProductRepository;
 import de.tanukihardwarestore.ProductService.warehouse.ComponentManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,6 +29,12 @@ public class ProductRestController {
         checkIfRepositoryIsFilled();
         return productRepository.findById(id)
                 .orElse(null);
+    }
+
+    @PostMapping()
+    public void postProduct(@RequestBody Product product) {
+        checkIfRepositoryIsFilled();
+        this.productRepository.save(product);
     }
 
     private void checkIfRepositoryIsFilled() {
