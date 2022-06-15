@@ -38,6 +38,10 @@ GET /component
 
 ## Get specific component
 GET /component/{id}
+
+## Add a product
+PUT /component
+BODY: JSON-Product-Object like below
 ```
 
 ## JSON  Body
