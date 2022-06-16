@@ -18,11 +18,14 @@ public class Product {
 
     public Product() {}
 
-    public Product(Long id, String name, Set<PCComponent> components) {
+    private String image_url;
+
+    public Product(Long id, String name, String image_url, Set<PCComponent> components) {
         super();
         this.product_id = id;
         this.name = name;
         this.components = components;
+        this.image_url = image_url;
     }
 
     @Override
@@ -44,4 +47,7 @@ public class Product {
 
     public Set<PCComponent> getComponents() { return components; }
 
+    public String getImage_url() {
+        return image_url;
+    }
 }
