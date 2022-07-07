@@ -1,6 +1,8 @@
 package de.tanukihardwarestore.ProductService.rabbit.requests;
 
-public class ProductServiceRequest {
+import java.io.Serializable;
+
+public class ProductServiceRequest implements Serializable {
 
     private String userID;
 
@@ -9,7 +11,13 @@ public class ProductServiceRequest {
         this.userID = userID;
     }
 
+    public ProductServiceRequest() {}
+
     public String getUserID() {
         return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 }

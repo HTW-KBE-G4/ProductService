@@ -1,6 +1,8 @@
 package de.tanukihardwarestore.ProductService.rabbit.requests;
 
-public class CurrencyServiceRequest {
+import java.io.Serializable;
+
+public class CurrencyServiceRequest implements Serializable {
 
     private String inputCurrency;
     private String expectedCurrency;

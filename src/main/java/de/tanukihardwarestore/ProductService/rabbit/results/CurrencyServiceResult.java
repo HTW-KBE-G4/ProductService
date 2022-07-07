@@ -1,6 +1,8 @@
 package de.tanukihardwarestore.ProductService.rabbit.results;
 
-public class CurrencyServiceResult {
+import java.io.Serializable;
+
+public class CurrencyServiceResult implements Serializable {
 
     private final double price;
     private final String currency;

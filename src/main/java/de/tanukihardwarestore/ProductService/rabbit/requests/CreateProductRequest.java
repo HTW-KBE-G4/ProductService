@@ -1,17 +1,20 @@
 package de.tanukihardwarestore.ProductService.rabbit.requests;
 
-import de.tanukihardwarestore.GatewayService.model.RawProduct;
 
-public class CreateProductRequest {
-    private RawProduct product;
+import de.tanukihardwarestore.ProductService.model.Product;
+
+import java.io.Serializable;
+
+public class CreateProductRequest implements Serializable {
+    private Product product;
     private String userID;
 
-    public CreateProductRequest(RawProduct product, String userID) {
+    public CreateProductRequest(Product product, String userID) {
         this.product = product;
         this.userID = userID;
     }
 
-    public RawProduct getProduct() {
+    public Product getProduct() {
         return product;
     }
 

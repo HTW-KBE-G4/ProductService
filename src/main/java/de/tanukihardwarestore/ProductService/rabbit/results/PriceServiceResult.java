@@ -1,6 +1,8 @@
 package de.tanukihardwarestore.ProductService.rabbit.results;
 
-public class PriceServiceResult {
+import java.io.Serializable;
+
+public class PriceServiceResult implements Serializable {
 
     private double total;
 

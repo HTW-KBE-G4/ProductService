@@ -1,15 +1,13 @@
 package de.tanukihardwarestore.ProductService.controller;
 
-import de.tanukihardwarestore.ProductService.configurations.RabbitMQConfig;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("")
@@ -18,10 +16,12 @@ public class APIController {
     private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    private DirectExchange exchange;
+    @Qualifier("productExchange")
+    private DirectExchange productExchange;
 
     @Autowired
-    private Queue queue;
+    @Qualifier("productQueue")
+    private Queue productQueue;
 
     public APIController(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
@@ -38,11 +38,11 @@ public class APIController {
                 "<a href='http://localhost:4200/h2-console'>H2-Console</a>";
     }
 
-    @GetMapping("/rabit")
+    @GetMapping("rabit")
     public String publichMessage() {
         String message = "Hello Workds";
-        System.out.println("APIController: Send messageto queue: "+queue.getName() + ", message: "+message);
+        System.out.println("APIController: Send messageto queue: "+ productQueue.getName() + ", message: "+message);
 
-        return (String) this.rabbitTemplate.convertSendAndReceive(exchange.getName(), "product", message);
+        return (String) this.rabbitTemplate.convertSendAndReceive(productExchange.getName(), "product", message);
     }
 }

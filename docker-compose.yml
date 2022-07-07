@@ -33,12 +33,12 @@ services:
     networks:
       - default
       - warehouseservice_default
-      - rabbit_default
+      - messagebrokerservice_default
 
 networks:
   default:
     internal: true
   warehouseservice_default:
     external: true
-  rabbit_default:
+  messagebrokerservice_default:
     external: true
