@@ -2,7 +2,8 @@ package de.tanukihardwarestore.ProductService.controller;
 
 import de.tanukihardwarestore.ProductService.model.Product;
 import de.tanukihardwarestore.ProductService.repository.ProductRepository;
-import de.tanukihardwarestore.ProductService.warehouse.ComponentManager;
+import de.tanukihardwarestore.ProductService.services.ProductRepositoryService;
+import de.tanukihardwarestore.ProductService.services.warehouse.ComponentManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,31 +18,28 @@ public class ProductRestController {
     @Autowired
     private ComponentManager componentManager;
 
+    @Autowired
+    private ProductRepositoryService productRepositoryService;
+
 
     @GetMapping("")
     public List<Product> getProducts() {
-        checkIfRepositoryIsFilled();
-        return productRepository.findAll();
+        return this.productRepositoryService.getAll();
+        //return productRepository.findAll();
     }
 
     @GetMapping("/{id}")
-    public Product getComponent(@PathVariable Long id) {
-        checkIfRepositoryIsFilled();
-        return productRepository.findById(id)
-                .orElse(null);
+    public Product getProduct(@PathVariable Long id) {
+        return this.productRepositoryService.getById(id);
+        //return productRepository.findById(id)
+        //        .orElse(null);
     }
 
     @PostMapping()
     public void postProduct(@RequestBody Product product) {
-        checkIfRepositoryIsFilled();
-        this.productRepository.save(product);
+        this.productRepositoryService.save(product);
+        //this.productRepository.save(product);
     }
 
-    private void checkIfRepositoryIsFilled() {
-        if (productRepository.count() <= 0) {
-            if (componentManager.fetchDataFromBackend() == false) {
-                System.out.println("Error fetching data from WarehouseService...");
-            }
-        }
-    }
+
 }

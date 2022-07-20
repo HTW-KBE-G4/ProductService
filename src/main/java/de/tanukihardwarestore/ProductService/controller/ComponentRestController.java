@@ -2,7 +2,7 @@ package de.tanukihardwarestore.ProductService.controller;
 
 import de.tanukihardwarestore.ProductService.model.PCComponent;
 import de.tanukihardwarestore.ProductService.repository.ComponentRepository;
-import de.tanukihardwarestore.ProductService.warehouse.ComponentManager;
+import de.tanukihardwarestore.ProductService.services.warehouse.ComponentManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,9 +39,7 @@ public class ComponentRestController {
      */
     private void checkIfRepositoryIsFilled() {
         if (componentRepository.count() <= 0) {
-            if (componentManager.fetchDataFromBackend() == false) {
-                System.out.println("Error fetching data from WarehouseService...");
-            }
+            this.componentRepository.saveAll(this.componentManager.getAllComponents());
         }
     }
 }
