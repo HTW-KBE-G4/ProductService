@@ -2,7 +2,8 @@ package de.tanukihardwarestore.ProductService.data;
 
 import de.tanukihardwarestore.ProductService.repository.ComponentRepository;
 import de.tanukihardwarestore.ProductService.repository.ProductRepository;
-import de.tanukihardwarestore.ProductService.warehouse.ComponentManager;
+import de.tanukihardwarestore.ProductService.services.ProductRepositoryService;
+import de.tanukihardwarestore.ProductService.services.warehouse.ComponentManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class DatabaseLoader {
     @Autowired
     private ComponentManager componentManager;
 
+    @Autowired
+    private ProductRepositoryService productRepositoryService;
+
     private static final Logger log = LoggerFactory.getLogger(DatabaseLoader.class);
 
     @Bean
@@ -27,9 +31,7 @@ public class DatabaseLoader {
 
         return args -> {
             repository.deleteAll();
-            if (componentManager.fetchDataFromBackend() == false) {
-                log.error("Failed fetching componnets from backend into database");
-            }
+            repository.saveAll(this.componentManager.getAllComponents());
 
         };
     }
@@ -38,10 +40,8 @@ public class DatabaseLoader {
     CommandLineRunner initProducts(ProductRepository repository) {
 
         return args -> {
-            repository.deleteAll();
-            if (componentManager.fetchDataFromBackend() == false) {
-                log.error("Failed fetching products from backend into database");
-            }
+            this.productRepositoryService.deleteAll();
+            this.productRepositoryService.saveAll(this.componentManager.getAllProducts().stream().toList());
         };
     }
 }

@@ -34,18 +34,11 @@ public class RabbitMQListener {
     @RabbitListener(queues = RabbitMQConfig.PRODUCT_QUEUE)
     public String getAllProducts(ProductServiceRequest request) {
         System.out.println("[ProductService]: getAllProducts: <"+request.getUserID()+">");
-        /*ProductServiceResult productServiceResult = new ProductServiceResult(
-                this.productRepository.findAll()
-                        .stream()
-                        .filter(x -> x.getUser_id().equals(request.getUserID()))
-                        .collect(Collectors.toList())
-        );*/
+
         ProductServiceResult productServiceResult = new ProductServiceResult(this.productRepository.findAll().stream().toList());
 
         String resultString = "";
-        //if (product.getUser_id().equals(requestSingle.getUserID())) {
-        //    return this.writeJSON(product);
-        //}
+
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             resultString = objectMapper.writeValueAsString(productServiceResult);
@@ -63,9 +56,7 @@ public class RabbitMQListener {
         Product product = this.productRepository.findById(requestSingle.getProductID())
                 .orElse(new Product());
         String resultString = "";
-        //if (product.getUser_id().equals(requestSingle.getUserID())) {
-        //    return this.writeJSON(product);
-        //}
+
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             resultString = objectMapper.writeValueAsString(product);

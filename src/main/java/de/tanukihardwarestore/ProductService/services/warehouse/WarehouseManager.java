@@ -1,9 +1,10 @@
-package de.tanukihardwarestore.ProductService.warehouse;
+package de.tanukihardwarestore.ProductService.services.warehouse;
 
 import de.tanukihardwarestore.ProductService.model.PCComponent;
 import de.tanukihardwarestore.ProductService.model.Product;
 import de.tanukihardwarestore.ProductService.repository.ComponentRepository;
 import de.tanukihardwarestore.ProductService.repository.ProductRepository;
+import de.tanukihardwarestore.ProductService.services.ProductRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -22,37 +23,11 @@ public class WarehouseManager implements ComponentManager {
     private static final String PRODUCT_PATH = "http://warehouse:3002/products";
 
     @Autowired
-    private ComponentRepository componentRepository;
-
-
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
     private RestTemplate restTemplate;
 
 
     @Override
     public Collection<PCComponent> getAllComponents() {
-        return this.componentRepository.findAll();
-    }
-
-    @Override
-    public Collection<Product> getAllProducts() {
-        return this.productRepository.findAll();
-    }
-
-    @Override
-    public boolean fetchDataFromBackend() {
-        return fetchComponentsFromWarehouse() && fetchProductsFromWarehouse();
-    }
-
-    private boolean fetchComponentsFromWarehouse() {
-        if (this.componentRepository.count() > 0) {
-            //list has already been fetched. no more need to...
-            return true;
-        }
-
         ResponseEntity<List<PCComponent>> response = restTemplate.exchange(
                 COMPONENT_PATH,
                 HttpMethod.GET,
@@ -62,20 +37,11 @@ public class WarehouseManager implements ComponentManager {
 
         List<PCComponent> list = response.getBody();
 
-        if (list != null) {
-            this.componentRepository.saveAll(list);
-            return true;
-        }
-
-        //got null reponse -> return false...
-        return false;
+        return list;
     }
 
-    private boolean fetchProductsFromWarehouse() {
-        if (this.productRepository.count() > 0) {
-            return true;
-        }
-
+    @Override
+    public Collection<Product> getAllProducts() {
         ResponseEntity<List<Product>> response = restTemplate.exchange(
                 PRODUCT_PATH,
                 HttpMethod.GET,
@@ -85,11 +51,6 @@ public class WarehouseManager implements ComponentManager {
 
         List<Product> productList  = response.getBody();
 
-        if (productList != null) {
-            this.productRepository.saveAll(productList);
-            return true;
-        }
-
-        return false;
+        return productList;
     }
 }
