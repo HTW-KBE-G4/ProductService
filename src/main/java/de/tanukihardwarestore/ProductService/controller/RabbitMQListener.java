@@ -13,6 +13,7 @@ import de.tanukihardwarestore.ProductService.rabbit.results.ComponentQueueResult
 import de.tanukihardwarestore.ProductService.rabbit.results.ProductServiceResult;
 import de.tanukihardwarestore.ProductService.repository.ComponentRepository;
 import de.tanukihardwarestore.ProductService.repository.ProductRepository;
+import de.tanukihardwarestore.ProductService.services.ProductRepositoryService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 public class RabbitMQListener {
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductRepositoryService productRepositoryService;
 
     @Autowired
     private ComponentRepository componentRepository;
@@ -35,7 +36,7 @@ public class RabbitMQListener {
     public String getAllProducts(ProductServiceRequest request) {
         System.out.println("[ProductService]: getAllProducts: <"+request.getUserID()+">");
 
-        ProductServiceResult productServiceResult = new ProductServiceResult(this.productRepository.findAll().stream().toList());
+        ProductServiceResult productServiceResult = new ProductServiceResult(this.productRepositoryService.getAll());
 
         String resultString = "";
 
@@ -53,8 +54,7 @@ public class RabbitMQListener {
     public String getOneProduct(ProductServiceRequestSingle requestSingle) {
         System.out.println("[ProductService]: gotOneProduct: <"+requestSingle+">");
 
-        Product product = this.productRepository.findById(requestSingle.getProductID())
-                .orElse(new Product());
+        Product product = this.productRepositoryService.getById(requestSingle.getProductID());
         String resultString = "";
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -71,7 +71,7 @@ public class RabbitMQListener {
     public void postProduct(Product product) {
         System.out.println("[ProductService]: postProduct: <"+product+">");
 
-        this.productRepository.save(product);
+        this.productRepositoryService.save(product);
     }
 
     @RabbitListener(queues = RabbitMQConfig.COMPONENT_QUEUE)
