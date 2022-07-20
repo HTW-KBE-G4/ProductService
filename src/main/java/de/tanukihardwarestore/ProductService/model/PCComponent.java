@@ -3,9 +3,10 @@ package de.tanukihardwarestore.ProductService.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 @Entity
-public class PCComponent {
+public class PCComponent implements Serializable {
 
     @Id
     @GeneratedValue()
@@ -142,5 +143,9 @@ public class PCComponent {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setUvp(Float uvp) {
+        this.uvp = uvp;
     }
 }

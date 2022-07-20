@@ -33,9 +33,12 @@ services:
     networks:
       - default
       - warehouseservice_default
+      - messagebrokerservice_default
 
 networks:
   default:
     internal: true
   warehouseservice_default:
+    external: true
+  messagebrokerservice_default:
     external: true
