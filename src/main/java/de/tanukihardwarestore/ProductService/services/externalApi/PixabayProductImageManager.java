@@ -58,8 +58,6 @@ public class PixabayProductImageManager implements ProductImageManager {
         }
         int index = ((int) (Math.random() * 20));
 
-        //int index = (int) (product_id % pixabayResponse.getHits().size());
-
         String imageURL = pixabayResponse.getHits().get(index).getLargeImageURL();
 
         return imageURL;

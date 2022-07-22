@@ -110,7 +110,7 @@ public class RabbitMQListener {
     }
 
     @RabbitListener(queues = RabbitMQConfig.SINGLE_COMPONENT_QUEUE)
-    public String getOneComponents(GetOneComponentRequest request) throws JsonProcessingException {
+    public String getOneComponents(GetOneComponentRequest request) {
         System.out.println("[ProductService]: gotOneComponent: <"+request.getComponentID()+">");
 
         PCComponent pcComponent = this.componentRepository.findById(request.getComponentID())

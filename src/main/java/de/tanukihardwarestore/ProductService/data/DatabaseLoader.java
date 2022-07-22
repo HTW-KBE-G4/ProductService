@@ -37,7 +37,7 @@ public class DatabaseLoader {
     }
 
     @Bean
-    CommandLineRunner initProducts(ProductRepository repository) {
+    CommandLineRunner initProducts() {
 
         return args -> {
             this.productRepositoryService.deleteAll();

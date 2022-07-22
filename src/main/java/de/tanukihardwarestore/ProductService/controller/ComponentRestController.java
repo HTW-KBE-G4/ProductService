@@ -23,21 +23,18 @@ public class ComponentRestController {
 
     @GetMapping("")
     public List<PCComponent> getAllComponents() {
-        checkIfRepositoryIsFilled();
+        fillRepositoryIfEmpty();
         return componentRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public PCComponent getComponent(@PathVariable Long id) {
-        checkIfRepositoryIsFilled();
+        fillRepositoryIfEmpty();
         return componentRepository.findById(id)
                 .orElse(null);
     }
 
-    /**
-     * Fills repository if it wasn't already filled during startup bean
-     */
-    private void checkIfRepositoryIsFilled() {
+    private void fillRepositoryIfEmpty() {
         if (componentRepository.count() <= 0) {
             this.componentRepository.saveAll(this.componentManager.getAllComponents());
         }
