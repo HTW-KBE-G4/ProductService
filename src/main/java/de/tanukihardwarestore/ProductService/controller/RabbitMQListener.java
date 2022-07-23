@@ -68,10 +68,19 @@ public class RabbitMQListener {
     }
 
     @RabbitListener(queues = RabbitMQConfig.CREATE_PRODUCT_QUEUE)
-    public void postProduct(Product product) {
+    public String postProduct(Product product) {
         System.out.println("[ProductService]: postProduct: <"+product+">");
 
         this.productRepositoryService.save(product);
+        String resultString;
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            resultString = objectMapper.writeValueAsString("200");
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return resultString;
     }
 
     @RabbitListener(queues = RabbitMQConfig.COMPONENT_QUEUE)
@@ -101,7 +110,7 @@ public class RabbitMQListener {
     }
 
     @RabbitListener(queues = RabbitMQConfig.SINGLE_COMPONENT_QUEUE)
-    public String getOneComponents(GetOneComponentRequest request) throws JsonProcessingException {
+    public String getOneComponents(GetOneComponentRequest request) {
         System.out.println("[ProductService]: gotOneComponent: <"+request.getComponentID()+">");
 
         PCComponent pcComponent = this.componentRepository.findById(request.getComponentID())

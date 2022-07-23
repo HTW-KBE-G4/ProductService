@@ -25,20 +25,16 @@ public class ProductRestController {
     @GetMapping("")
     public List<Product> getProducts() {
         return this.productRepositoryService.getAll();
-        //return productRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public Product getProduct(@PathVariable Long id) {
         return this.productRepositoryService.getById(id);
-        //return productRepository.findById(id)
-        //        .orElse(null);
     }
 
     @PostMapping()
     public void postProduct(@RequestBody Product product) {
         this.productRepositoryService.save(product);
-        //this.productRepository.save(product);
     }
 
 

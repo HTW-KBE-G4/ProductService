@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Random;
+
 @Service
 public class PixabayProductImageManager implements ProductImageManager {
 
@@ -54,7 +56,7 @@ public class PixabayProductImageManager implements ProductImageManager {
             }
 
         }
-        int index = (int) (product_id % pixabayResponse.getHits().size());
+        int index = ((int) (Math.random() * 20));
 
         String imageURL = pixabayResponse.getHits().get(index).getLargeImageURL();
 

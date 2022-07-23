@@ -42,16 +42,6 @@ public class ProductRepositoryService {
         }
     }
 
-    public long getCount() {
-        return this.productRepository.count();
-    }
-
-    private void checkIfRepositoryIsFilled() {
-        if (productRepository.count() <= 0) {
-            this.productRepository.saveAll(this.componentManager.getAllProducts());
-        }
-    }
-
     public void deleteAll() {
         this.productRepository.deleteAll();
     }
