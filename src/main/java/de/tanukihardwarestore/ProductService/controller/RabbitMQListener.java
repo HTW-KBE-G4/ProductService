@@ -36,7 +36,7 @@ public class RabbitMQListener {
     public String getAllProducts(ProductServiceRequest request) {
         System.out.println("[ProductService]: getAllProducts: <"+request.getUserID()+">");
 
-        ProductServiceResult productServiceResult = new ProductServiceResult(this.productRepositoryService.getAll());
+        ProductServiceResult productServiceResult = new ProductServiceResult(this.productRepositoryService.getAll(request.getUserID()));
 
         String resultString = "";
 
@@ -54,7 +54,7 @@ public class RabbitMQListener {
     public String getOneProduct(ProductServiceRequestSingle requestSingle) {
         System.out.println("[ProductService]: gotOneProduct: <"+requestSingle+">");
 
-        Product product = this.productRepositoryService.getById(requestSingle.getProductID());
+        Product product = this.productRepositoryService.getById(requestSingle.getProductID(), requestSingle.getUserID());
         String resultString = "";
 
         ObjectMapper objectMapper = new ObjectMapper();

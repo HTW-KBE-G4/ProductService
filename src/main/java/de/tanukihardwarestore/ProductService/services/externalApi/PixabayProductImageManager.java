@@ -62,7 +62,4 @@ public class PixabayProductImageManager implements ProductImageManager {
 
         return imageURL;
     }
-
-
-
 }

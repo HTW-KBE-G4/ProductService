@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductRepositoryService {
@@ -27,13 +28,20 @@ public class ProductRepositoryService {
         this.productRepository.save(product);
     }
 
-    public List<Product> getAll() {
-        return this.productRepository.findAll();
+    public List<Product> getAll(String user_id) {
+
+        List<Product> productList = this.productRepository.findAll();
+        return filterListByUserId(productList, user_id);
     }
 
-    public Product getById(Long id) {
-        return this.productRepository.findById(id)
+    public Product getById(Long id, String user_id) {
+        Product product = this.productRepository.findById(id)
                 .orElse(null);
+
+        if (checkForValidUserId(product, user_id)) {
+            return product;
+        }
+        return null;
     }
 
     public void saveAll(List<Product> productList) {
@@ -44,5 +52,15 @@ public class ProductRepositoryService {
 
     public void deleteAll() {
         this.productRepository.deleteAll();
+    }
+
+    private List<Product> filterListByUserId(List<Product> productList, String user_id) {
+        return productList.stream()
+                .filter(x -> x.getUser_id().equals(user_id))
+                .collect(Collectors.toList());
+    }
+
+    private boolean checkForValidUserId(Product product, String user_id) {
+        return product.getUser_id().equals(user_id);
     }
 }
