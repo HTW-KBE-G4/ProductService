@@ -36,6 +36,7 @@ public class Product implements Serializable {
     public String toString() {
         return "Product{" +
                 "id=" + product_id +
+                "user_id=" + user_id +
                 ", name='" + name + '\'' +
                 ", components=" + components +
                 '}';

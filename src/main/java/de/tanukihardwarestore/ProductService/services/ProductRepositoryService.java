@@ -25,6 +25,12 @@ public class ProductRepositoryService {
         if (product.getImage_url() == null || product.getImage_url().equals("")) {
             product.setImage_url(pixabayProductImageManager.getImage(product.getProduct_id()));
         }
+
+        //default products should have user id '0'
+        if (product.getUser_id() == null) {
+            product.setUser_id("0");
+        }
+
         this.productRepository.save(product);
     }
 
@@ -56,7 +62,7 @@ public class ProductRepositoryService {
 
     private List<Product> filterListByUserId(List<Product> productList, String user_id) {
         return productList.stream()
-                .filter(x -> x.getUser_id().equals(user_id))
+                .filter(x -> x.getUser_id().equals(user_id) || x.getUser_id().equals("0"))
                 .collect(Collectors.toList());
     }
 
